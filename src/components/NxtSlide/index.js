@@ -97,12 +97,13 @@ class NxtSlide extends Component {
   }
 
   onClickHeading = () => {
-    this.setState({isHeadingActive: true})
+    this.setState({isHeadingActive: true, isDescriptionActive: false})
   }
 
   onClickDescription = () => {
     this.setState({
       isDescriptionActive: true,
+      isHeadingActive: false,
     })
   }
 
@@ -115,7 +116,7 @@ class NxtSlide extends Component {
     }
     const index = slidesList.findIndex(slide => slide.id === currentSlide.id)
     slidesList.splice(index + 1, 0, newSlide)
-    this.setState({slidesList, currentSlide: newSlide})
+    this.setState({slidesList, currentSlide: slidesList[index + 1]})
   }
 
   render() {
