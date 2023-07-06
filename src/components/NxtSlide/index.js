@@ -46,6 +46,7 @@ class NxtSlide extends Component {
   state = {
     slidesList: initialSlidesList,
     currentSlide: initialSlidesList[0],
+    updatingSlide: initialSlidesList[0],
     isHeadingActive: false,
     isDescriptionActive: false,
   }
@@ -97,13 +98,20 @@ class NxtSlide extends Component {
   }
 
   onClickHeading = () => {
-    this.setState({isHeadingActive: true, isDescriptionActive: false})
+    const {currentSlide} = this.state
+    this.setState({
+      isHeadingActive: true,
+      isDescriptionActive: false,
+      updatingSlide: currentSlide,
+    })
   }
 
   onClickDescription = () => {
+    const {currentSlide} = this.state
     this.setState({
       isDescriptionActive: true,
       isHeadingActive: false,
+      updatingSlide: currentSlide,
     })
   }
 
@@ -125,6 +133,7 @@ class NxtSlide extends Component {
       slidesList,
       isDescriptionActive,
       isHeadingActive,
+      updatingSlide,
     } = this.state
     return (
       <div className="bg-container">
@@ -162,7 +171,7 @@ class NxtSlide extends Component {
             ))}
           </ol>
           <div testid="slide" className="slide-show-container">
-            {isHeadingActive ? (
+            {isHeadingActive && currentSlide.id === updatingSlide.id ? (
               <input
                 onBlur={this.onBlurHeading}
                 onChange={this.onChangeHeading}
@@ -175,7 +184,7 @@ class NxtSlide extends Component {
                 {currentSlide.heading}
               </h1>
             )}
-            {isDescriptionActive ? (
+            {isDescriptionActive && currentSlide.id === updatingSlide.id ? (
               <input
                 onBlur={this.onBlurDescription}
                 onChange={this.onChangeDescription}
